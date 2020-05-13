@@ -1,0 +1,51 @@
+Install Helm and Metrics server
+
+Detailed document
+Check for helm if its available in the kubernetes cluster
+
+$ helm version --short
+
+Use these to install helm if not found
+
+Download your desired version download linux amd64 tar zip from this link
+Unpack it (tar -zxvf helm-v3.0.0-linux-amd64.tar.gz)
+Find the helm binary in the unpacked directory, and move it to its desired destination (mv linux-amd64/helm /usr/local/bin/helm)
+ 
+
+ 
+
+To add the helm stable repo use
+
+$ helm repo add stable https://kubernetes-charts.storage.googleapis.com/
+
+ 
+
+To search for metrics-server you use
+
+$ helm search repo metrics-server
+
+ 
+
+To get the custom resource values in the repo you use
+
+$ helm show values stable/metrics-server > /tmp/metrics-server.values
+
+ 
+
+You need to enable hostnetwork to avoid errors and need to uncomment the insecure option. These are two changes needed in the values file
+
+ Create a namespace called kube-metrics
+
+$ kubectl create ns kube-metrics
+
+To install use
+
+$ helm install metrics-server stable/metrics-server --namespace kube-metrics --values /tmp/metrics-server.values
+
+ 
+
+Waiting for few mins for the service to be ready in the cluster and use
+
+$ kubectl top nodes
+
+To see the metrics available in the cluster
