@@ -1,0 +1,7 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: dynamic-sit-nfs
+provisioner: example.com/sit-nfs
+parameters:
+  archiveOnDelete: "false"
